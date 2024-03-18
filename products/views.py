@@ -15,14 +15,17 @@ def all_products(request):
     sort = None
     direction = None
 
+# sorting products part one
+
     if request.GET:
         if 'sort' in request.GET:
             sortkey = request.GET['sort']
             sort = sortkey
             if sortkey == 'name':
                 sortkey = 'lower_name'
-                products = products.annotate(lower_name=Lower('name')) # noqa  
-
+                products = products.annotate(lower_name=Lower('name')) # noqa
+            if sortkey == 'category':
+                sortkey == 'categrory__name'
             if 'direction' in request.GET:
                 direction = request.GET['direction']
                 if direction == 'desc':
@@ -33,6 +36,8 @@ def all_products(request):
             categories = request.GET['category'].split(',')
             products = products.filter(category__name__in=categories)
             categories = Category.objects.filter(name__in=categories)
+
+# Queries and Categories Part 1 & 2
 
         if 'q' in request.GET:
             query = request.GET['q']
