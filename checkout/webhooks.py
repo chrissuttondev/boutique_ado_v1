@@ -7,8 +7,6 @@ from checkout.webhook_handler import StripeWH_Handler
 
 import stripe
 
-print("hello")
-
 
 @require_POST
 @csrf_exempt
