@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['8000-chrissutton-boutiqueado-02hftru2q9i.ws-eu111.gitpod.io', 'boutiquesut.herokuapp.com'] # noqa
+ALLOWED_HOSTS = ['8000-chrissutton-boutiqueado-02hftru2q9i.ws-eu111.gitpod.io', '.herokuapp.com'] # noqa
 
 
 # Application definition
