@@ -19,8 +19,6 @@ def all_products(request):
     sort = None
     direction = None
 
-# sorting products part one
-
     if request.GET:
         if 'sort' in request.GET:
             sortkey = request.GET['sort']
@@ -29,26 +27,26 @@ def all_products(request):
                 sortkey = 'lower_name'
                 products = products.annotate(lower_name=Lower('name'))
             if sortkey == 'category':
-                sortkey == 'categrory__name'
+                sortkey = 'category__name'
             if 'direction' in request.GET:
                 direction = request.GET['direction']
                 if direction == 'desc':
                     sortkey = f'-{sortkey}'
             products = products.order_by(sortkey)
-# noqa                 
+            
         if 'category' in request.GET:
             categories = request.GET['category'].split(',')
             products = products.filter(category__name__in=categories)
             categories = Category.objects.filter(name__in=categories)
 
-# Queries and Categories Part 1 & 2
-
         if 'q' in request.GET:
             query = request.GET['q']
             if not query:
-                messages.error(request, "You didn't enter any search criteria!") # noqa
+                messages.error(
+                    request, "You didn't enter any search criteria!"
+                    )
                 return redirect(reverse('products'))
-
+          
             queries = Q(name__icontains=query) | Q(description__icontains=query) # noqa
             products = products.filter(queries)
 
@@ -93,7 +91,7 @@ def add_product(request):
             messages.error(request, 'Failed to add product. Please ensure the form is valid.') # noqa
     else:
         form = ProductForm()
-    
+      
     template = 'products/add_product.html'
     context = {
         'form': form,
@@ -117,7 +115,10 @@ def edit_product(request, product_id):
             messages.success(request, 'Successfully updated product!')
             return redirect(reverse('product_detail', args=[product.id]))
         else:
-            messages.error(request, 'Failed to update product. Please ensure the form is valid.') # noqa
+            messages.error(
+                request,
+                'Failed to update product. Please ensure the form is valid.'
+                )
     else:
         form = ProductForm(instance=product)
         messages.info(request, f'You are editing {product.name}')
